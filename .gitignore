@@ -1,0 +1,6 @@
+.RHistory
+*.sqlite
+*.Rproj
+.Rproj.user/
+Icon
+
