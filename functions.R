@@ -4,3 +4,13 @@ getArticlesForTopicCode <- function(outputDb, topicCode) {
   
   articlesForTopicCode;
 }
+
+getArticlesForMultipleTopicCodes <- function(outputDb, topicCodes) {
+  # Create list with a data frame for each topic code
+  articlesForCodes <- lapply(topicCodes, function(topicCode) getArticlesForTopicCode(outputDb, topicCode))
+  
+  # Name the list items with the topic codes
+  names(articlesForCodes) <- topicCodes
+
+  articlesForCodes
+}
