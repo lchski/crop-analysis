@@ -17,5 +17,12 @@ issueUuids <- sampledIssues$uuid
 articlesByTopicCodes <- getArticlesForMultipleTopicCodes(outputDb, topicCodes)
 issueCountsByTopicCodes <- countMultipleTopicCodesForIssues(outputDb, topicCodes, issueUuids)
 
+# Plots
+issueCountsByTopicCodesBarPlots <- generateBarplotCountsForMultipleTopicCodes(issueCountsByTopicCodes, topicCodes)
+lapply(topicCodes, function(topicCode) ggsave(
+    filename=sub("TOPIC_CODE", topicCode, "charts/TOPIC_CODE.png"),
+    plot=issueCountsByTopicCodesBarPlots[[topicCode]]
+  ))
+
 # Cleanup
 dbDisconnect(outputDb)

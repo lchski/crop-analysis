@@ -74,3 +74,10 @@ barplotCountsForTopicCode <- function(issueCountsByTopicCode, topicCode) {
       plot.title = element_text(hjust = 0.5)
     );
 }
+
+generateBarplotCountsForMultipleTopicCodes <- function(issueCountsByTopicCode, topicCodes) {
+  issueCountsByTopicCodesBarPlots <- lapply(topicCodes, function(topicCode) barplotCountsForTopicCode(issueCountsByTopicCode, topicCode))
+  names(issueCountsByTopicCodesBarPlots) <- topicCodes
+  
+  issueCountsByTopicCodesBarPlots
+}
