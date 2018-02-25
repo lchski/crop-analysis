@@ -14,3 +14,36 @@ getArticlesForMultipleTopicCodes <- function(outputDb, topicCodes) {
 
   articlesForCodes
 }
+
+getCountsForTopicCode <- function(outputDb, topicCode) {
+  query <- sub("TOPIC_CODE", topicCode, "SELECT issue_uuid, COUNT(*) as 'count' FROM articles WHERE (topic_codes LIKE '%TOPIC_CODE%') GROUP BY issue_uuid");
+  countsForTopicCode <- dbGetQuery(outputDb, query);
+
+  countsForTopicCode;
+}
+
+createGenericIssueCountFrame <- function(issues) {
+  # Create data frame with two columns: issue UUID, and count (default to 0)
+  genericIssueCountFrame <- data.frame(issues, c(rep(0, length(issues))))
+
+  # Label the columns
+  names(genericIssueCountFrame) <- c("issue_uuid", "count")
+
+  genericIssueCountFrame
+}
+
+countTopicCodeForIssues <- function(outputDb, topicCode, issues) {
+  # Get the raw data frame with merged counts
+  mergedDf <- merge(createGenericIssueCountFrame(issues), getCountsForTopicCode(outputDb, topicCode), by=c("issue_uuid"), all=TRUE)
+
+  # Drop the unused count field
+  cleanedDf <- data.frame(mergedDf$issue_uuid, mergedDf$count.y)
+
+  # Relabel the columns
+  names(cleanedDf) <- c("issue_uuid", "count")
+
+  # Replace NA values with 0
+  cleanedDf <- replace(cleanedDf, is.na(cleanedDf), 0)
+
+  cleanedDf
+}
