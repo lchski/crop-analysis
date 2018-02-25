@@ -69,5 +69,8 @@ barplotCountsForTopicCode <- function(issueCountsByTopicCode, topicCode) {
     xlab("Issue") +
     ylab("Count") +
     ggtitle(sub("TOPIC_CODE", topicCode, "Articles Coded 'TOPIC_CODE'")) +
-    theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5));
+    theme(
+      axis.text.x=element_text(angle=90, hjust=1, vjust=0.5),
+      plot.title = element_text(hjust = 0.5)
+    );
 }
