@@ -1,6 +1,7 @@
 # Imports
 library("DBI")
 library("RSQLite")
+library("ggplot2")
 source("./functions.R")
 
 # Setup
