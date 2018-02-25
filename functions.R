@@ -47,3 +47,13 @@ countTopicCodeForIssues <- function(outputDb, topicCode, issues) {
 
   cleanedDf
 }
+
+countMultipleTopicCodesForIssues <- function(outputDb, topicCodes, issues) {
+  # Create list with a data frame for each topic code
+  issueCountsForTopicCodes <- lapply(topicCodes, function(topicCode) countTopicCodeForIssues(outputDb, topicCode, issues))
+
+  # Name the list items with the topic codes
+  names(issueCountsForTopicCodes) <- topicCodes
+
+  issueCountsForTopicCodes
+}
