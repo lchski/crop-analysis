@@ -79,7 +79,7 @@ barplotCountsForTopicCode <- function(issueCountsByTopicCode, topicCode, ylimUpp
 generateBarplotCountsForMultipleTopicCodes <- function(issueCountsByTopicCode, topicCodes) {
   maxValue <- Reduce(function(maxValue, issueCountsForCode) if(max(issueCountsForCode[["count"]]) > maxValue) max(issueCountsForCode[["count"]]) else maxValue, issueCountsByTopicCode, 0)
 
-  issueCountsByTopicCodesBarPlots <- lapply(topicCodes, function(topicCode) barplotCountsForTopicCode(issueCountsByTopicCode, topicCode, maxValue + 1))
+  issueCountsByTopicCodesBarPlots <- lapply(topicCodes, function(topicCode) barplotCountsForTopicCode(issueCountsByTopicCode, topicCode, maxValue))
   names(issueCountsByTopicCodesBarPlots) <- topicCodes
   
   issueCountsByTopicCodesBarPlots
