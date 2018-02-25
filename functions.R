@@ -61,10 +61,10 @@ countMultipleTopicCodesForIssues <- function(outputDb, topicCodes, issues) {
 
 
 ## PLOTTING FUNCTIONS
-barplotCountsForTopicCode <- function(issueCountsByTopicCode, topicCode, ylimUpper) {
+barplotCountsForTopicCode <- function(issueCountsByTopicCode, topicCode, ylimUpper = NA) {
   countsForTopicCode <- issueCountsByTopicCode[[topicCode]];
   
-  ggplot(countsForTopicCode, aes(countsForTopicCode$issue_uuid, countsForTopicCode$count)) +
+  ggplot(countsForTopicCode, aes(x = countsForTopicCode$issue_uuid, y = countsForTopicCode$count)) +
     geom_bar(stat="identity") +
     ylim(0, ylimUpper) +
     xlab("Issue") +
