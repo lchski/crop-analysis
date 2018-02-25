@@ -10,7 +10,7 @@ topicCodeStore <- read.csv("codes.csv", header = TRUE)
 
 # Base data objects
 sampledIssues <- dbGetQuery(outputDb, "SELECT * FROM issues WHERE in_sample = 1")
-topicCodes <- topicCodeStore$code
+topicCodes <- as.character(topicCodeStore$code)
 issueUuids <- sampledIssues$uuid
 
 # Analytical data objects
