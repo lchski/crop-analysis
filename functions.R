@@ -1,3 +1,5 @@
+library(scales)
+
 getArticlesForTopicCode <- function(outputDb, topicCode) {
   query <- sub("TOPIC_CODE", topicCode, "SELECT * FROM articles WHERE (topic_codes LIKE '%TOPIC_CODE%')");
   articlesForTopicCode <- dbGetQuery(outputDb, query);
@@ -69,7 +71,7 @@ barplotCountsForTopicCode <- function(issueCountsByTopicCode, topicCode, ylimUpp
     ylim(0, ylimUpper) +
     xlab("Issue") +
     ylab("Count") +
-    ggtitle(sub("TOPIC_CODE", topicCodeStore[which(topicCodeStore$code == topicCode), ][["description"]], "Articles Coded 'TOPIC_CODE'")) +
+    ggtitle(sub("TOPIC_CODE", topicCodeStore[which(topicCodeStore$code == topicCode), ][["description"]], "Articles coded 'TOPIC_CODE'")) +
     theme(
       axis.text.x=element_text(angle=90, hjust=1, vjust=0.5),
       plot.title = element_text(hjust = 0.5)
@@ -83,4 +85,35 @@ generateBarplotCountsForMultipleTopicCodes <- function(issueCountsByTopicCode, t
   names(issueCountsByTopicCodesBarPlots) <- topicCodes
   
   issueCountsByTopicCodesBarPlots
+}
+
+generateChartForGenderCounts <- function(genderCounts) {
+  totalArticles <- sum(genderCounts$count)
+  # Convert gender column to factor to ensure order
+  genderCounts$gender <- factor(genderCounts$gender, levels = genderCounts$gender)
+  
+  ggplot(genderCounts, aes(x = genderCounts$gender, y = genderCounts$count/sum(genderCounts$count))) +
+    geom_bar(stat="identity") +
+    xlab("Inferred author gender") +
+    ylab("Percentage of articles published") +
+    scale_y_continuous(labels=scales::percent) +
+    ggtitle("Percentage of articles published by inferred author gender") +
+    theme(
+      plot.title = element_text(hjust = 0.5)
+    );
+}
+
+generateChartForInstitutionCounts <- function(institutionCounts) {
+    # Convert institution column to factor to ensure order
+  institutionCounts$institution <- factor(institutionCounts$institution, levels = institutionCounts$institution)
+  
+  ggplot(institutionCounts, aes(x = institutionCounts$institution, y = institutionCounts$count)) +
+    geom_bar(stat="identity") +
+    xlab("Author institution") +
+    ylab("Number of articles published") +
+    ggtitle("Number of articles published by author institution") +
+    theme(
+      axis.text.x=element_text(angle=90, hjust=1, vjust=0.5),
+      plot.title = element_text(hjust = 0.5)
+    );
 }
